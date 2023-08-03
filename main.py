@@ -6,6 +6,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, WebDriverException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
 
 def exist_element(driver, by:str, value:str):
     try:
@@ -85,20 +86,31 @@ sign_close.click()
 # Network.responseReceived
 
 # https://edit-api-sg.capcut.com/lv/v1/upload/get_upload_task
-cap_ele = wait_element(driver, By.XPATH, '//*[@data-ssr-i18n-value="Captions"]', time_out=10)
+cap_ele = wait_element(driver, By.XPATH, '//*[@data-ssr-i18n-value="Captions"]', time_out=2)
 if cap_ele:
     captions = driver.find_element(By.XPATH, '//*[@data-ssr-i18n-value="Captions"]')
     captions.click()
-elif wait_element(driver, By.XPATH, '//*[@data-ssr-i18n-value="Chú thích"]', time_out=10):
+elif wait_element(driver, By.XPATH, '//*[@data-ssr-i18n-value="Chú thích"]', time_out=2):
     print('None')
     captions = driver.find_element(By.XPATH, '//*[@data-ssr-i18n-value="Chú thích"]')
     captions.click()
 
-    if wait_element(driver, By.XPATH, '//*[@id="text-intelligent-detect-text"]', time_out=10):
+    if wait_element(driver, By.XPATH, '//*[@id="text-intelligent-detect-text"]', time_out=2):
+        print('ok1')
         detect = driver.find_element(By.XPATH, '//*[@id="text-intelligent-detect-text"]')
         detect.click()
-        if wait_element(driver, By.XPATH, '//*[@id="lang"]//input', time_out=10):
-            select = driver.find_element(By.XPATH, '//*[@id="lang"]//input')
+        if wait_element(driver, By.XPATH, '//*[@id="text-intelligent-detect-text"]//input', time_out=2):
+            print('ok2')
+            select = driver.find_element(By.XPATH, '//*[@id="text-intelligent-detect-text"]//input')
+            ActionChains(driver).move_to_element(select).perform()
+            ActionChains(driver).click(select).perform()
+            
+            # try:
+            # #     select.click()
+            #     select.send_keys('US')
+            # except:
+            #     import traceback
+            #     print(traceback.format_exc())
             # select.click()
             # select.send_keys('US')
             # if wait_element(driver, By.XPATH, '//*[@id="text-intelligent-detect-text"]//button', time_out=10):
