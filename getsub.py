@@ -46,10 +46,20 @@ json_data = {
     'app_id': 348188,
 }
 
-response = requests.post('https://edit-api-sg.capcut.com/lv/v1/caption/query', cookies=cookies, headers=headers, json=json_data)
+# response = requests.post('https://edit-api-sg.capcut.com/lv/v1/caption/query', cookies=cookies, headers=headers, json=json_data)
 
 # Note: json_data will not be serialized by requests
 # exactly as it was in the original request.
 #data = '{"resources":[{"resource_id":"v107eeg50001cj5muqrc77ufaiog2ck0","file_type":2,"words_per_line":55,"language":"en-US","url_from_type":4,"caption_type":0,"workspace_id":"0"}],"region":"VN","app_id":348188}'
 #response = requests.post('https://edit-api-sg.capcut.com/lv/v1/caption/query', cookies=cookies, headers=headers, data=data)
-print(response.text)
+# print(response.text)
+
+def convert_to_sub_time(milliseconds):
+    seconds = int(milliseconds / 1000)
+    minutes, seconds = divmod(seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+
+    sub_time = f"{hours:02d}:{minutes:02d}:{seconds:02d},{milliseconds % 1000:03d}"
+    return sub_time
+
+print(convert_to_sub_time(2639))
